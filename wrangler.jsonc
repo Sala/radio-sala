@@ -1,0 +1,69 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "radio-sala",
+  "main": "worker/index.ts",
+  "compatibility_date": "2026-11-18",
+  "compatibility_flags": ["nodejs_compat"],
+  "upload_source_maps": true,
+  // Workers AI has no local simulator. Declaring the binding forces a remote
+  // session, and `wrangler dev` then requires a Cloudflare API token before
+  // the app can start. The speech call is in worker/speech.ts. After
+  // `wrangler login`, uncomment the block below to turn speech on:
+  "ai": { "binding": "AI", "remote": true },
+  "observability": {
+    "enabled": true,
+    "logs": {
+      "enabled": true,
+      "head_sampling_rate": 1
+    },
+    "traces": {
+      "enabled": true,
+      "head_sampling_rate": 0.01
+    }
+  },
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS",
+    "not_found_handling": "single-page-application",
+    "run_worker_first": ["/api/*"]
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "radio-sala",
+      // Local placeholder. `wrangler dev` uses a local SQLite file.
+      // Replace this with the id from `wrangler d1 create radio-sala` before any deploy.
+      "database_id": "b7c2a1e0-6f4d-4a1e-9c3b-8d5e2f7a1c04",
+      "migrations_dir": "migrations"
+    }
+  ],
+  "r2_buckets": [
+    {
+      "binding": "CLIPS",
+      "bucket_name": "radio-sala-clips"
+    }
+  ],
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "STATION",
+        "class_name": "Station"
+      }
+    ]
+  },
+  "migrations": [
+    {
+      "tag": "v1",
+      "new_sqlite_classes": ["Station"]
+    }
+  ],
+  // Names only. Values live in `.dev.vars` locally and in Wrangler secrets when deployed.
+  "secrets": {
+    "required": [
+      "GOOGLE_CLIENT_ID",
+      "GOOGLE_CLIENT_SECRET",
+      "SESSION_SECRET",
+      "YOUTUBE_API_KEY"
+    ]
+  }
+}

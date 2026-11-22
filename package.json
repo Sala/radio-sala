@@ -1,0 +1,23 @@
+{
+  "name": "radio-sala",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "setup": "wrangler d1 migrations apply radio-sala --local",
+    "dev": "npm run setup && vite build && wrangler dev --port 8787 --ip 127.0.0.1",
+    "build": "vite build",
+    "types": "wrangler types",
+    "check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "hono": "^4.10.7",
+    "vue": "^3.5.26",
+    "vue-router": "^4.6.3"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^6.0.2",
+    "typescript": "^5.9.3",
+    "vite": "^7.2.7",
+    "wrangler": "^4.54.0"
+  }
+}

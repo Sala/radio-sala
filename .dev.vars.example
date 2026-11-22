@@ -1,0 +1,6 @@
+# Copy to .dev.vars and fill these in. Wrangler reads .dev.vars during `wrangler dev`.
+# Do not commit .dev.vars. Never put the values in wrangler.jsonc.
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
+SESSION_SECRET=
+YOUTUBE_API_KEY=
